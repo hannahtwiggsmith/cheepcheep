@@ -19,8 +19,6 @@ SCREEN = pygame.display.set_mode((X_SIZE, Y_SIZE))
 background = pygame.image.load('images/background.bmp').convert()
 SCREEN.blit(background, (0, 0))
 
-from itertools import chain
-
 def truncline(text, font, maxwidth):
         real=len(text)       
         stext=text           
@@ -54,7 +52,7 @@ def wrapline(text, font, maxwidth):
 
 
 class TextScreen():
-	def __init__(self, display_text, option_array, next_array, font_color=(255,255,255), option_color=(0,0,255), background_color=(0,0,0)):
+	def __init__(self, display_text, option_array, font_color=(255,255,255), option_color=(0,0,255), background_color=(0,0,0)):
 		"""
 		display_text: the information displayed at the top of the screen
 		option_array: the options the player can choose to advance through the story
@@ -62,10 +60,12 @@ class TextScreen():
 		"""
 		self.display_text = display_text
 		self.option_array = option_array
-		self.next_array = next_array
 		self.font_color = font_color
 		self.background_color = background_color
 		self.option_color = option_color
+
+	def set_next_array(self, arr):
+		self.next_array = arr
 
 	def blit_text(self):
 		SCREEN.fill(self.background_color)
@@ -79,10 +79,46 @@ class TextScreen():
 			SCREEN.blit(myfont.render(op, False, self.option_color),(30, option_y+value*25))
 
 
-intro3 = TextScreen('It\'s all coming back to you now-', ['continue'], [])
-intro2 = TextScreen('You\'re in a desert, somewhere. There are feathers scattered around.', ['Oh. Right. I crashed.'], [intro3])
-intro = TextScreen('You wake up. Your head is throbbing.', ['look around'], [intro2])
-welcome = TextScreen('Welcome to cheepcheep! Use the number keys to advance. Good Luck!', ['continue', 'also continue'], [intro, intro])
+# Text Screen Definitions
+# this implementation is so bad lol
+#
+
+welcome = TextScreen('Welcome to cheepcheep! Use the number keys to advance. Good Luck!', ['continue'])
+
+intro = TextScreen('You wake up. Your head is throbbing.', ['look around'])
+intro2 = TextScreen('You\'re in a desert, somewhere. There are dark blue feathers scattered around.', ['Oh. Right. I crashed.'])
+intro3 = TextScreen('It\'s all coming back to you now- you need to get home. You know your home is across the desert', ['Start walking', 'Stay where you are'])
+intro4 = TextScreen('You start walking -well, er, trudging. It\'s slow going in this sand.', ['continue'])
+intro5 = TextScreen('The desert is... bright. And... pretty empty of terrors.', ['Blink', 'Blink twice', 'Blink three times'])
+
+wait = TextScreen('What the hell is waiting going to accomplish. You\'re stuck in the desert.', ['Keep Going', 'Wait some more'])
+wait2 = TextScreen('You don\'t have very good survival skills.', ['Move', 'Sit still and get thirsty'])
+wait3 = TextScreen('The only thing that changes is your level of thirst. It is increasing.', ['Move, dumbass.', 'Accept your fate. Your thirsty fate.'])
+
+die = TextScreen('OH WOE IS ME. you died of thirst. you might want to try again with a few more brain cells.', ['Try again'])
+
+bright = TextScreen('It\'s very bright. You see something glimmering off in the distance.', ['An oasis! Run toward it!', 'A trap! Run away!'])
+# oasis = TextScreen()
+
+
+# Link all the text screens
+welcome.set_next_array([intro])
+intro.set_next_array([intro2])
+intro2.set_next_array([intro3])
+intro3.set_next_array([intro4, wait])
+intro4.set_next_array([intro5])
+intro5.set_next_array([bright, bright, bright])
+wait.set_next_array([intro4, wait2])
+wait2.set_next_array([intro4, wait3])
+wait3.set_next_array([intro4, die])
+die.set_next_array([intro])
+
+
+
+#
+#
+#
+#
 
 current_text = welcome
 
