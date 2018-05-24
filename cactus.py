@@ -1,6 +1,6 @@
 """
 Author: Hannah Twigg-Smith
-Main game file for cheepcheep
+Cactus game file for cheepcheep
 """
 
 import pygame
