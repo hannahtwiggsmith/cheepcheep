@@ -75,8 +75,8 @@ flower = Flower(PINK, 30, 30)
 all_sprites_list.add(flower)
 flower_list.add(flower)
 
-dead_text = myfont.render('YOU DIED! r to restart', False, (0, 0, 0))
-win_text = myfont.render('YOU WIN! r to restart', False, (0, 0, 0))
+dead_text = myfont.render('YOU DIED! Press Q to continue.', False, (0, 0, 0))
+win_text = myfont.render('YOU WIN! Press Q to continue.', False, (0, 0, 0))
 global state
 state = "running"
 
@@ -124,14 +124,15 @@ def main_loop():
 				if event.type == QUIT:
 					sys.exit()
 				pressed = pygame.key.get_pressed()
-				if pressed[pygame.K_r]:
-					for sprite in spike_list.sprites():
-						sprite.kill()
+				if pressed[pygame.K_q]:
+					sys.exit()
+					# for sprite in spike_list.sprites():
+					# 	sprite.kill()
 
-					player.rect.x = 0
-					player.rect.y = Y_SIZE//2
-					generate_spikes()
-					state = "running"
+					# player.rect.x = 0
+					# player.rect.y = Y_SIZE//2
+					# generate_spikes()
+					# state = "running"
 
 			SCREEN.blit(dead_text,(100, 200))
 			pygame.display.update()
@@ -141,14 +142,15 @@ def main_loop():
 				if event.type == QUIT:
 					sys.exit()
 				pressed = pygame.key.get_pressed()
-				if pressed[pygame.K_r]:
-					for sprite in spike_list.sprites():
-						sprite.kill()
+				if pressed[pygame.K_q]:
+					sys.exit()
+					# for sprite in spike_list.sprites():
+					# 	sprite.kill()
 
-					player.rect.x = 0
-					player.rect.y = Y_SIZE//2
-					generate_spikes()
-					state = "running"
+					# player.rect.x = 0
+					# player.rect.y = Y_SIZE//2
+					# generate_spikes()
+					# state = "running"
 
 			SCREEN.blit(win_text,(100, 200))
 			pygame.display.update()
